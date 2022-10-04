@@ -6,4 +6,9 @@ export type User = {
   admissionDate: Date
   demissionDate?: Date
   contactPhone: string
+  role: User.Role
+}
+
+export namespace User {
+  export type Role = 'owner' | 'admin' | 'seller'
 }
