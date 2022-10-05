@@ -10,5 +10,5 @@ export type User = {
 }
 
 export namespace User {
-  export type Role =  'admin' | 'seller'
+  export type Role = 'admin' | 'seller'
 }
