@@ -1,10 +1,10 @@
 export type User = {
   id: number
   name: string
-  cpts: string
+  ctps: string
   cpf: string
   admissionDate: Date
-  demissionDate?: Date
+  demissionDate?: Date | null
   contactPhone: string
   role: User.Role
 }
