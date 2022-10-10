@@ -1,0 +1,33 @@
+version: '3'
+services:
+  api:
+    container_name: baianinho_api
+    build: .
+    expose:
+      - 3001
+      - 9229
+    ports:
+      - "3001:3001"
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - db
+    environment:
+      POSTGRES_DB_HOST: 'db'
+    volumes:
+      - "./:/usr/src/app"
+      - "reserved:/usr/src/app/node_modules"
+  db:
+    image: postgres
+    container_name: baianinho_db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: 'baianinhodb'
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+volumes:
+  database_data:
+    driver: local
+  reserved: null
