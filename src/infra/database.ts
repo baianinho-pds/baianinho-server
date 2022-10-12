@@ -7,7 +7,13 @@ export class Database {
   constructor () {
     this.connection = knex({
       client: 'pg',
-      connection: 'postgresql://localhost/baianinhodb?user=postgres&password=postgres'
+      connection: {
+        host: 'baianinho_db',
+        user: 'postgres',
+        password: 'postgres',
+        database: 'baianinhodb',
+        port: 5432
+      }
     })
   }
 
