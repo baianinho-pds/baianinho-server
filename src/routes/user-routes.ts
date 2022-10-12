@@ -24,12 +24,12 @@ export function makeUserRoutes (router: Router): void {
     const isNameValid = name && typeof name === 'string'
     const isCptsValid = ctps && typeof ctps === 'string'
     const isCpfValid = cpf && typeof cpf === 'string'
-    const isAdmissionDateValid = admissionDate && typeof !isNaN(Date.parse(admissionDate))
+    const isAdmissionDateValid = admissionDate && new Date(admissionDate).getTime() > 0
     const isContactPhoneValid = contactPhone && typeof contactPhone === 'string'
     const isRoleValid = role && validRoles.includes(role)
     const isCityValid = city && typeof city === 'string'
     const isNeighborhoodValid = neighborhood && typeof neighborhood === 'string'
-    const isNumberValid = number && typeof number === 'number'
+    const isNumberValid = number && typeof number === 'string'
     const isPostalCodeValid = postalCode && typeof postalCode === 'string'
     const isSectorValid = sector && validSectors.includes(sector)
     const isStreetValid = street && typeof street === 'string'
@@ -64,7 +64,8 @@ export function makeUserRoutes (router: Router): void {
       number,
       postalCode,
       street
-    }).catch(() => {
+    }).then(user => res.status(200).json(user)).catch((error) => {
+      console.error(error)
       res.status(500).json({ error: 'ServerError' })
     })
   })
