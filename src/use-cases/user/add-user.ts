@@ -1,9 +1,9 @@
-import { Database } from "../../infra/database";
-import { User } from "../../models/user";
+import { Database } from '../../infra/database'
+import { User } from '../../models/user'
 
 type AddUserParams = Omit<User, 'id'> & {
-  subsidiary: {id: string},
-  address: {id: string}
+  subsidiary: { id: string }
+  address: { id: string }
 }
 
 export class AddUser {
@@ -19,9 +19,8 @@ export class AddUser {
       subsidiary_id: params.subsidiary.id,
       address_id: params.address.id
     })
-    
 
-    if(!user) {
+    if (!user) {
       throw new Error('Server error')
     }
 

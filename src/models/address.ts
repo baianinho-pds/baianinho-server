@@ -1,4 +1,4 @@
-export type Address = {
+export interface Address {
   id: number
   city: string
   neighborhood: string

@@ -1,4 +1,4 @@
-export type Subsidiary = {
+export interface Subsidiary {
   id: number
   name: string
 }
