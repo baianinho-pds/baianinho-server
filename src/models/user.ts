@@ -10,7 +10,7 @@ export interface User {
   city: string
   neighborhood: string
   street: string
-  number: number
+  number: string
   postalCode: string
   sector: User.Sector
 }
