@@ -10,28 +10,28 @@ export function makeUserRoutes (router: Router): void {
       name,
       ctps,
       cpf,
-      admissionDate,
-      contactPhone,
-      role,
+      admission_date,
+      contact_phone,
+      role_name,
       city,
       neighborhood,
       number,
-      postalCode,
-      sector,
+      postal_code,
+      sector_name,
       street
-    } = req.body
+    } = req.body as User
 
     const isNameValid = name && typeof name === 'string'
     const isCptsValid = ctps && typeof ctps === 'string'
     const isCpfValid = cpf && typeof cpf === 'string'
-    const isAdmissionDateValid = admissionDate && new Date(admissionDate).getTime() > 0
-    const isContactPhoneValid = contactPhone && typeof contactPhone === 'string'
-    const isRoleValid = role && validRoles.includes(role)
+    const isAdmissionDateValid = admission_date && new Date(admission_date).getTime() > 0
+    const isContactPhoneValid = contact_phone && typeof contact_phone === 'string'
+    const isRoleValid = role_name && validRoles.includes(role_name)
     const isCityValid = city && typeof city === 'string'
     const isNeighborhoodValid = neighborhood && typeof neighborhood === 'string'
     const isNumberValid = number && typeof number === 'string'
-    const isPostalCodeValid = postalCode && typeof postalCode === 'string'
-    const isSectorValid = sector && validSectors.includes(sector)
+    const isPostalCodeValid = postal_code && typeof postal_code === 'string'
+    const isSectorValid = sector_name && validSectors.includes(sector_name)
     const isStreetValid = street && typeof street === 'string'
 
     if (
@@ -52,17 +52,17 @@ export function makeUserRoutes (router: Router): void {
     }
 
     void addUser({
-      admissionDate,
-      contactPhone,
+      admission_date,
+      contact_phone,
       cpf,
       ctps,
       name,
-      role,
-      sector,
+      role_name,
+      sector_name,
       city,
       neighborhood,
       number,
-      postalCode,
+      postal_code,
       street
     }).then(user => res.status(200).json(user)).catch((error) => {
       console.error(error)

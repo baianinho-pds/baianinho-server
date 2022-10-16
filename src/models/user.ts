@@ -3,16 +3,16 @@ export interface User {
   name: string
   ctps: string
   cpf: string
-  admissionDate: Date
-  demissionDate?: Date | null
-  contactPhone: string
-  role: User.Role
+  admission_date: Date
+  demission_date?: Date | null
+  contact_phone: string
+  role_name: User.Role
   city: string
   neighborhood: string
   street: string
   number: string
-  postalCode: string
-  sector: User.Sector
+  postal_code: string
+  sector_name: User.Sector
 }
 
 export namespace User {
