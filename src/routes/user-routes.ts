@@ -1,5 +1,6 @@
 import { User } from '@/models/user'
 import { addUser } from '@/use-cases/user/add-user'
+import { findUserPage } from '@/use-cases/user/find-user-page'
 import { Router } from 'express'
 
 export function makeUserRoutes (router: Router): void {
@@ -65,6 +66,20 @@ export function makeUserRoutes (router: Router): void {
       postal_code,
       street
     }).then(user => res.status(200).json(user)).catch((error) => {
+      console.error(error)
+      res.status(500).json({ error: 'ServerError' })
+    })
+  })
+
+  router.get('/', (req, res) => {
+    const { itemsPerPage = '10', page = '0' } = req.query
+
+    findUserPage({ 
+      itemsPerPage: parseInt(itemsPerPage as string), 
+      page: parseInt(page as string)
+    }).then((userPage) => {
+      return res.status(200).json(userPage)
+    }).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
     })
