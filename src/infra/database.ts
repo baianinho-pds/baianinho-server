@@ -14,6 +14,12 @@ type FindOneParams<T> = {
   select: Array<keyof T> | '*'
 }
 
+type DeleteParams<T> = {
+  where: {
+    [K in keyof T]?: T[K]
+  }
+}
+
 export type Page<T> = {
   data: T[]
   total?: number
@@ -78,5 +84,13 @@ export class Database {
       .limit(1)
     
     return item
+  }
+
+  public async delete<T>(table: string, data: DeleteParams<T>): Promise<number> {
+    const affectedRows = await this.connection(table)
+      .where(data.where)
+      .del()
+    
+    return affectedRows
   }
 }
