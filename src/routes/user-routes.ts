@@ -1,5 +1,6 @@
 import { User } from '@/models/user'
 import { addUser } from '@/use-cases/user/add-user'
+import { findUser } from '@/use-cases/user/find-user'
 import { findUserPage } from '@/use-cases/user/find-user-page'
 import { Router } from 'express'
 
@@ -78,6 +79,23 @@ export function makeUserRoutes (router: Router): void {
       itemsPerPage: parseInt(itemsPerPage as string), 
       page: parseInt(page as string)
     }).then((userPage) => {
+      return res.status(200).json(userPage)
+    }).catch((error) => {
+      console.error(error)
+      res.status(500).json({ error: 'ServerError' })
+    })
+  })
+
+  router.get('/:id', (req, res) => {
+    const userId = req.params.id
+
+    const isUserIdValid = !isNaN(parseInt(userId)) 
+
+    if(!isUserIdValid) {
+      return res.status(400).json({ error: 'BadRequest' })
+    }
+
+    findUser(parseInt(userId)).then((userPage) => {
       return res.status(200).json(userPage)
     }).catch((error) => {
       console.error(error)
