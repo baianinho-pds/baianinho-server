@@ -3,8 +3,15 @@ import knex, { Knex } from 'knex'
 type FindManyParams<T> = {
   offset: number
   limit: number
-  select: Array<keyof T>
+  select: Array<keyof T> | '*'
   count?: boolean 
+}
+
+type FindOneParams<T> = {
+  where: {
+    [K in keyof T]?: T[K]
+  }
+  select: Array<keyof T> | '*'
 }
 
 export type Page<T> = {
@@ -62,5 +69,14 @@ export class Database {
     return {
       data: items
     }
+  }
+
+  public async findOne<T>(table: string, data: FindOneParams<T>): Promise<T> {
+    const [item] = await this.connection.select(data.select)
+      .from(table)
+      .offset(0)
+      .limit(1)
+    
+    return item
   }
 }
