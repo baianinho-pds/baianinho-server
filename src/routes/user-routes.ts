@@ -72,7 +72,7 @@ export function makeUserRoutes (router: Router): void {
   })
 
   router.get('/', (req, res) => {
-    const { itemsPerPage = '10', page = '0' } = req.query
+    const { itemsPerPage = '10', page = '1' } = req.query
 
     findUserPage({ 
       itemsPerPage: parseInt(itemsPerPage as string), 
