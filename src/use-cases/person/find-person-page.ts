@@ -13,6 +13,7 @@ export async function findPersonPage(
     limit: params.itemsPerPage,
     offset: params.page - 1,
     select: ["id", "name", "role_name", "sector_name"],
+    count: true
   })
 
   return personPage
