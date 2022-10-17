@@ -1,15 +1,17 @@
-import { User } from '@/models/user'
-import { addUser } from '@/use-cases/user/add-user'
-import { deleteUser } from '@/use-cases/user/delete-user'
-import { findUser } from '@/use-cases/user/find-user'
-import { findUserPage } from '@/use-cases/user/find-user-page'
-import { updateUser } from '@/use-cases/user/update-user'
+import { Person } from '@/models/person'
+import { 
+  addPerson, 
+  deletePerson, 
+  findPerson, 
+  findPersonPage, 
+  updatePerson 
+} from '@/use-cases/person'
 import { Router } from 'express'
 
-export function makeUserRoutes (router: Router): void {
+export function makePersonRoutes (router: Router): void {
   router.post('/', (req, res) => {
-    const validRoles: User.Role[] = ['admin', 'seller']
-    const validSectors: User.Sector[] = ['external', 'internal']
+    const validRoles: Person.Role[] = ['admin', 'seller']
+    const validSectors: Person.Sector[] = ['external', 'internal']
     const {
       name,
       ctps,
@@ -23,7 +25,7 @@ export function makeUserRoutes (router: Router): void {
       postal_code,
       sector_name,
       street
-    } = req.body as User
+    } = req.body as Person
 
     const isNameValid = name && typeof name === 'string'
     const isCptsValid = ctps && typeof ctps === 'string'
@@ -55,7 +57,7 @@ export function makeUserRoutes (router: Router): void {
       return res.status(400).json({ error: 'BadFormat' })
     }
 
-    void addUser({
+    void addPerson({
       admission_date,
       contact_phone,
       cpf,
@@ -68,7 +70,7 @@ export function makeUserRoutes (router: Router): void {
       number,
       postal_code,
       street
-    }).then(user => res.status(200).json(user)).catch((error) => {
+    }).then(person => res.status(200).json(person)).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
     })
@@ -77,11 +79,11 @@ export function makeUserRoutes (router: Router): void {
   router.get('/', (req, res) => {
     const { itemsPerPage = '10', page = '1' } = req.query
 
-    findUserPage({ 
+    findPersonPage({ 
       itemsPerPage: parseInt(itemsPerPage as string), 
       page: parseInt(page as string)
-    }).then((userPage) => {
-      return res.status(200).json(userPage)
+    }).then((personPage) => {
+      return res.status(200).json(personPage)
     }).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
@@ -89,16 +91,16 @@ export function makeUserRoutes (router: Router): void {
   })
 
   router.get('/:id', (req, res) => {
-    const userId = req.params.id
+    const personId = req.params.id
 
-    const isUserIdValid = !isNaN(parseInt(userId)) 
+    const isPersonValid = !isNaN(parseInt(personId)) 
 
-    if(!isUserIdValid) {
+    if(!isPersonValid) {
       return res.status(400).json({ error: 'BadRequest' })
     }
 
-    findUser(parseInt(userId)).then((userPage) => {
-      return res.status(200).json(userPage)
+    findPerson(parseInt(personId)).then((personPage) => {
+      return res.status(200).json(personPage)
     }).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
@@ -106,15 +108,15 @@ export function makeUserRoutes (router: Router): void {
   })
 
   router.delete('/:id', (req, res) => {
-    const userId = req.params.id
+    const personId = req.params.id
 
-    const isUserIdValid = !isNaN(parseInt(userId)) 
+    const isPersonValid = !isNaN(parseInt(personId)) 
 
-    if(!isUserIdValid) {
+    if(!isPersonValid) {
       return res.status(400).json({ error: 'BadRequest' })
     }
 
-    deleteUser(parseInt(userId)).then(() => {
+    deletePerson(parseInt(personId)).then(() => {
       return res.status(204).send()
     }).catch((error) => {
       console.error(error)
@@ -123,8 +125,8 @@ export function makeUserRoutes (router: Router): void {
   })
 
   router.put('/:id', (req, res) => {
-    const validRoles: User.Role[] = ['admin', 'seller']
-    const validSectors: User.Sector[] = ['external', 'internal']
+    const validRoles: Person.Role[] = ['admin', 'seller']
+    const validSectors: Person.Sector[] = ['external', 'internal']
     const {
       name,
       ctps,
@@ -139,7 +141,7 @@ export function makeUserRoutes (router: Router): void {
       sector_name,
       street,
       demission_date
-    } = req.body as User
+    } = req.body as Person
 
     const { id } = req.params
 
@@ -157,7 +159,7 @@ export function makeUserRoutes (router: Router): void {
     const isSectorValid = sector_name && validSectors.includes(sector_name)
     const isStreetValid = street && typeof street === 'string'
     const isDemissionDateValid = !demission_date || (new Date(demission_date).getTime() > 0)
-    const isUserIdValid = !isNaN(parseInt(id)) 
+    const isPersonValid = !isNaN(parseInt(id)) 
 
     if (
       !isNameValid ||
@@ -173,12 +175,12 @@ export function makeUserRoutes (router: Router): void {
       !isSectorValid ||
       !isStreetValid ||
       !isDemissionDateValid ||
-      !isUserIdValid
+      !isPersonValid
     ) {
       return res.status(400).json({ error: 'BadFormat' })
     }
 
-    void updateUser({
+    void updatePerson({
         id: parseInt(id),
         admission_date,
         contact_phone,
@@ -192,7 +194,7 @@ export function makeUserRoutes (router: Router): void {
         number,
         postal_code,
         street
-    }).then(user => res.status(200).json(user)).catch((error) => {
+    }).then(person => res.status(200).json(person)).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
     })

@@ -1,19 +1,19 @@
 import { Database, Page } from "../../infra/database"
-import { User } from "../../models/user"
+import { Person } from "../../models/person"
 
 type FindPageParams = {
   page: number
   itemsPerPage: number
 }
 
-export async function findUserPage(
+export async function findPersonPage(
   params: FindPageParams
-): Promise<Page<User>> {
-  const userPage = await Database.getInstance().findMany<User>("person", {
+): Promise<Page<Person>> {
+  const personPage = await Database.getInstance().findMany<Person>("person", {
     limit: params.itemsPerPage,
     offset: params.page - 1,
     select: ["id", "name", "role_name", "sector_name"],
   })
 
-  return userPage
+  return personPage
 }
