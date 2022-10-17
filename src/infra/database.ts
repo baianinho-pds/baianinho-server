@@ -20,6 +20,12 @@ type DeleteParams<T> = {
   }
 }
 
+type UpdateParams<T> = {
+  table: string 
+  id: number 
+  data: T
+}
+
 export type Page<T> = {
   data: T[]
   total?: number
@@ -92,5 +98,15 @@ export class Database {
       .del()
     
     return affectedRows
+  }
+
+  public async update<T>(params: UpdateParams<T>): Promise< T & { id: number }> {
+    const [item] = await this.connection
+      .update(params.data)
+      .where({id: params.id})
+      .returning('*')
+      .into(params.table)
+
+    return item
   }
 }
