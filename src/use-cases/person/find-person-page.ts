@@ -6,15 +6,20 @@ type FindPageParams = {
   itemsPerPage: number
 }
 
+type FindPageResponse = Pick<Person, 'id' | 'name' | 'contact_phone'> 
+
 export async function findPersonPage(
   params: FindPageParams
-): Promise<Page<Person>> {
-  const personPage = await Database.getInstance().findMany<Person>("person", {
+): Promise<Page<FindPageResponse>> {
+  const personPage = await Database.getInstance().findMany<FindPageResponse>("person", {
     limit: params.itemsPerPage,
     offset: params.page - 1,
     select: ["id", "name", "contact_phone"],
     count: true
   })
 
-  return personPage
+  return {
+    total: personPage.total,
+    data: personPage.data
+  }
 }
