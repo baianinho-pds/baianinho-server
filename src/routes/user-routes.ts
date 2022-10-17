@@ -114,7 +114,7 @@ export function makeUserRoutes (router: Router): void {
     }
 
     deleteUser(parseInt(userId)).then(() => {
-      return res.status(204)
+      return res.status(204).send()
     }).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
