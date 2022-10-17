@@ -12,7 +12,7 @@ export async function findPersonPage(
   const personPage = await Database.getInstance().findMany<Person>("person", {
     limit: params.itemsPerPage,
     offset: params.page - 1,
-    select: ["id", "name", "role_name", "sector_name"],
+    select: ["id", "name", "contact_phone"],
     count: true
   })
 
