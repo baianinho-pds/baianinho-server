@@ -193,7 +193,8 @@ export function makePersonRoutes (router: Router): void {
         neighborhood,
         number,
         postal_code,
-        street
+        street,
+        demission_date
     }).then(person => res.status(200).json(person)).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
