@@ -87,6 +87,7 @@ export class Database {
     const [item] = await this.connection.select(data.select)
       .from(table)
       .offset(0)
+      .where(data.where)
       .limit(1)
     
     return item
