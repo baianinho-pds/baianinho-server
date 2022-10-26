@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0 --transpile-only --ignore-watch node_modules src/main.ts",
     "migration:make": "npx knex migrate:make --knexfile src/infra/knexfile.ts --",
+    "seed:make": "npx knex seed:make --knexfile src/infra/knexfile.ts --",
+    "seed:run": "npx knex seed:run --knexfile src/infra/knexfile.ts --",
     "migration:run": "npx knex migrate:latest --knexfile src/infra/knexfile.ts",
     "type-check": "tsc --pretty --noEmit"
   },
