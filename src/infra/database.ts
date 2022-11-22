@@ -61,6 +61,10 @@ export class Database {
       .returning('*')
       .into(table)
 
+    if (!item) {
+      throw new Error('Server error')
+    }
+
     return item
   }
 

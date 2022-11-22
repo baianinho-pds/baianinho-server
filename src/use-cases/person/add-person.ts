@@ -6,9 +6,5 @@ type AddUserParams = Omit<Person, 'id' | 'demissionDate'>
 export async function addPerson (params: AddUserParams): Promise<Person> {
   const person = await Database.getInstance().insert('person', params)
 
-  if (!person) {
-    throw new Error('Server error')
-  }
-
   return person
 }
