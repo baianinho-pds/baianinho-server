@@ -1,32 +1,32 @@
 import knex, { Knex } from 'knex'
 
-type FindManyParams<T> = {
+interface FindManyParams<T> {
   offset: number
   limit: number
   select: Array<keyof T> | '*'
-  count?: boolean 
+  count?: boolean
 }
 
-type FindOneParams<T> = {
+interface FindOneParams<T> {
   where: {
     [K in keyof T]?: T[K]
   }
   select: Array<keyof T> | '*'
 }
 
-type DeleteParams<T> = {
+interface DeleteParams<T> {
   where: {
     [K in keyof T]?: T[K]
   }
 }
 
-type UpdateParams<T> = {
-  table: string 
-  id: number 
+interface UpdateParams<T> {
+  table: string
+  id: number
   data: T
 }
 
-export type Page<T> = {
+export interface Page<T> {
   data: T[]
   total?: number
 }
@@ -70,13 +70,13 @@ export class Database {
       .offset(data.offset)
       .limit(data.limit)
 
-    if(data.count) {
+    if (data.count) {
       const [{ count = 0 }] = await this.connection(table).count<{ count: string }>({ count: '*' })
       return {
         data: items,
         total: count
       }
-    } 
+    }
 
     return {
       data: items
@@ -89,7 +89,7 @@ export class Database {
       .offset(0)
       .where(data.where)
       .limit(1)
-    
+
     return item
   }
 
@@ -97,14 +97,14 @@ export class Database {
     const affectedRows = await this.connection(table)
       .where(data.where)
       .del()
-    
+
     return affectedRows
   }
 
   public async update<T>(params: UpdateParams<T>): Promise< T & { id: number }> {
     const [item] = await this.connection
       .update(params.data)
-      .where({id: params.id})
+      .where({ id: params.id })
       .returning('*')
       .into(params.table)
 

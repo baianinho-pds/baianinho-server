@@ -1,10 +1,10 @@
 import { Person } from '@/models/person'
-import { 
-  addPerson, 
-  deletePerson, 
-  findPerson, 
-  findPersonPage, 
-  updatePerson 
+import {
+  addPerson,
+  deletePerson,
+  findPerson,
+  findPersonPage,
+  updatePerson
 } from '@/use-cases/person'
 import { Router } from 'express'
 
@@ -79,8 +79,8 @@ export function makePersonRoutes (router: Router): void {
   router.get('/', (req, res) => {
     const { itemsPerPage = '10', page = '1' } = req.query
 
-    findPersonPage({ 
-      itemsPerPage: parseInt(itemsPerPage as string), 
+    findPersonPage({
+      itemsPerPage: parseInt(itemsPerPage as string),
       page: parseInt(page as string)
     }).then((personPage) => {
       return res.status(200).json(personPage)
@@ -93,9 +93,9 @@ export function makePersonRoutes (router: Router): void {
   router.get('/:id', (req, res) => {
     const personId = req.params.id
 
-    const isPersonValid = !isNaN(parseInt(personId)) 
+    const isPersonValid = !isNaN(parseInt(personId))
 
-    if(!isPersonValid) {
+    if (!isPersonValid) {
       return res.status(400).json({ error: 'BadRequest' })
     }
 
@@ -110,9 +110,9 @@ export function makePersonRoutes (router: Router): void {
   router.delete('/:id', (req, res) => {
     const personId = req.params.id
 
-    const isPersonValid = !isNaN(parseInt(personId)) 
+    const isPersonValid = !isNaN(parseInt(personId))
 
-    if(!isPersonValid) {
+    if (!isPersonValid) {
       return res.status(400).json({ error: 'BadRequest' })
     }
 
@@ -145,7 +145,6 @@ export function makePersonRoutes (router: Router): void {
 
     const { id } = req.params
 
-
     const isNameValid = name && typeof name === 'string'
     const isCptsValid = ctps && typeof ctps === 'string'
     const isCpfValid = cpf && typeof cpf === 'string'
@@ -159,7 +158,7 @@ export function makePersonRoutes (router: Router): void {
     const isSectorValid = sector_name && validSectors.includes(sector_name)
     const isStreetValid = street && typeof street === 'string'
     const isDemissionDateValid = !demission_date || (new Date(demission_date).getTime() > 0)
-    const isPersonValid = !isNaN(parseInt(id)) 
+    const isPersonValid = !isNaN(parseInt(id))
 
     if (
       !isNameValid ||
@@ -181,20 +180,20 @@ export function makePersonRoutes (router: Router): void {
     }
 
     void updatePerson({
-        id: parseInt(id),
-        admission_date,
-        contact_phone,
-        cpf,
-        ctps,
-        name,
-        role_name,
-        sector_name,
-        city,
-        neighborhood,
-        number,
-        postal_code,
-        street,
-        demission_date
+      id: parseInt(id),
+      admission_date,
+      contact_phone,
+      cpf,
+      ctps,
+      name,
+      role_name,
+      sector_name,
+      city,
+      neighborhood,
+      number,
+      postal_code,
+      street,
+      demission_date
     }).then(person => res.status(200).json(person)).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })

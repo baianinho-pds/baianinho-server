@@ -1,7 +1,6 @@
 import { Database } from '../../infra/database'
 import { Person } from '../../models/person'
 
-
 export async function updatePerson (person: Person): Promise<Person> {
   const { id, ...paramsToUpdate } = person
   const updatedPerson = await Database.getInstance().update({
