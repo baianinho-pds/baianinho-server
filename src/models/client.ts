@@ -2,7 +2,7 @@ export interface Client {
   id: number
   name: string
   address: string
-  demission_date: Date
+  contact_phone: string
   cpf?: string
   cnpj?: string
 }
