@@ -1,6 +1,7 @@
 import { Client } from '@/models/client'
 import { addClient } from '@/use-cases/client/add-client'
 import { deleteClient } from '@/use-cases/client/delete-client'
+import { findclientPage } from '@/use-cases/client/find-client-page'
 import { Router } from 'express'
 
 export function makeClientRoutes (router: Router): void {
@@ -52,6 +53,20 @@ export function makeClientRoutes (router: Router): void {
 
     deleteClient(parseInt(clientId)).then(() => {
       return res.status(204).send()
+    }).catch((error) => {
+      console.error(error)
+      res.status(500).json({ error: 'ServerError' })
+    })
+  })
+
+  router.get('/', (req, res) => {
+    const { itemsPerPage = '10', page = '1' } = req.query
+
+    findclientPage({
+      itemsPerPage: parseInt(itemsPerPage as string),
+      page: parseInt(page as string)
+    }).then((clientPage) => {
+      return res.status(200).json(clientPage)
     }).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
