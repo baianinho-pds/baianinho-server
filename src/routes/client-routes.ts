@@ -1,10 +1,6 @@
-import { Client } from '@/models/client'
-import { addClient } from '@/use-cases/client/add-client'
-import { deleteClient } from '@/use-cases/client/delete-client'
-import { findClient } from '@/use-cases/client/find-client'
-import { findclientPage } from '@/use-cases/client/find-client-page'
-import { updateClient } from '@/use-cases/client/update-client'
 import { Router } from 'express'
+import { Client } from '@/models/client'
+import { addClient, deleteClient, findClient, findclientPage, updateClient } from '@/use-cases/client'
 
 export function makeClientRoutes (router: Router): void {
   router.post('/', (req, res) => {
