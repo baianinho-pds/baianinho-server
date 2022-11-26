@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { FeedStock } from '@/models/feedstock'
-import { addFeedStock, findFeedStock, findFeedStockPage, updateClient } from '@/use-cases/feedstock'
+import { addFeedStock, deleteFeedStock, findFeedStock, findFeedStockPage, updateClient } from '@/use-cases/feedstock'
 
 export function makeFeedStockRoutes(router: Router): void {
   router.post('/', (req, res) => {
@@ -87,6 +87,23 @@ export function makeFeedStockRoutes(router: Router): void {
       id: parseInt(id),
       amount, name, provider, suppliesType, unit, validity
     }).then(feedstock => res.status(200).json(feedstock)).catch(error => {
+      console.error(error)
+      res.status(500).json({ error: 'ServerError' })
+    })
+  })
+
+  router.delete('/:id', (req, res) => {
+    const feedstockId = req.params.id
+
+    const isFeedStockValid = !isNaN(parseInt(feedstockId))
+
+    if (!isFeedStockValid) {
+      return res.status(400).json({ error: 'BadRequest' })
+    }
+
+    deleteFeedStock(parseInt(feedstockId)).then(() => {
+      return res.status(204).send()
+    }).catch((error) => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
     })
