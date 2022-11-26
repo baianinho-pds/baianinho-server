@@ -1,4 +1,5 @@
 export interface FeedStock {
+  id: number
   name: string
   suppliesType: string
   provider: string
