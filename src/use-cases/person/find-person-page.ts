@@ -1,20 +1,20 @@
-import { Database, Page } from "../../infra/database"
-import { Person } from "../../models/person"
+import { Database, Page } from '../../infra/database'
+import { Person } from '../../models/person'
 
-type FindPageParams = {
+interface FindPageParams {
   page: number
   itemsPerPage: number
 }
 
-type FindPageResponse = Pick<Person, 'id' | 'name' | 'contact_phone'> 
+type FindPageResponse = Pick<Person, 'id' | 'name' | 'contact_phone'>
 
-export async function findPersonPage(
+export async function findPersonPage (
   params: FindPageParams
 ): Promise<Page<FindPageResponse>> {
-  const personPage = await Database.getInstance().findMany<FindPageResponse>("person", {
+  const personPage = await Database.getInstance().findMany<FindPageResponse>('person', {
     limit: params.itemsPerPage,
     offset: params.page - 1,
-    select: ["id", "name", "contact_phone"],
+    select: ['id', 'name', 'contact_phone'],
     count: true
   })
 

@@ -12,7 +12,7 @@
     "type-check": "tsc --pretty --noEmit"
   },
   "keywords": [],
-  "author": "Iago Rocha, Filipe Souza",
+  "author": "Iago Rocha, Filipe Souza, Samuel Alves",
   "license": "ISC",
   "devDependencies": {
     "@types/cors": "^2.8.12",
