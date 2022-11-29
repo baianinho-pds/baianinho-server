@@ -2,13 +2,13 @@ import { Router } from 'express'
 import { FeedStock } from '@/models/feedstock'
 import { addFeedStock, deleteFeedStock, findFeedStock, findFeedStockPage, updateClient } from '@/use-cases/feedstock'
 
-export function makeFeedStockRoutes(router: Router): void {
+export function makeFeedStockRoutes (router: Router): void {
   router.post('/', (req, res) => {
     const {
       amount,
       name,
       provider,
-      suppliesType,
+      supplies_type,
       unit,
       validity
     } = req.body as FeedStock
@@ -16,16 +16,16 @@ export function makeFeedStockRoutes(router: Router): void {
     const isAmountValid = amount === undefined || amount === null || typeof amount === 'number'
     const isNameValid = name && typeof name === 'string'
     const isProviderValid = provider && typeof provider === 'string'
-    const isSuppliesTypeValid = suppliesType && typeof suppliesType === 'string'
+    const isSuppliesTypeValid = supplies_type && typeof supplies_type === 'string'
     const isUnitValid = unit && typeof unit === 'string'
-    const isValidytValid = validity === undefined || validity === null || validity && new Date(validity).getTime() > 0
+    const isValidytValid = validity === undefined || validity === null || new Date(validity).getTime() > 0
 
     if (!isAmountValid || !isNameValid || !isProviderValid || !isSuppliesTypeValid || !isUnitValid || !isValidytValid) {
       return res.status(400).json({ error: 'BadFormat' })
     }
 
     addFeedStock({
-      amount, name, provider, suppliesType, unit, validity
+      amount, name, provider, supplies_type, unit, validity
     }).then(feedstock => res.status(200).json(feedstock)).catch(error => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
@@ -65,7 +65,7 @@ export function makeFeedStockRoutes(router: Router): void {
       amount,
       name,
       provider,
-      suppliesType,
+      supplies_type,
       unit,
       validity
     } = req.body as FeedStock
@@ -75,9 +75,9 @@ export function makeFeedStockRoutes(router: Router): void {
     const isAmountValid = amount === undefined || amount === null || typeof amount === 'number'
     const isNameValid = name && typeof name === 'string'
     const isProviderValid = provider && typeof provider === 'string'
-    const isSuppliesTypeValid = suppliesType && typeof suppliesType === 'string'
+    const isSuppliesTypeValid = supplies_type && typeof supplies_type === 'string'
     const isUnitValid = unit && typeof unit === 'string'
-    const isValidytValid = validity === undefined || validity === null || validity && new Date(validity).getTime() > 0
+    const isValidytValid = validity === undefined || validity === null || new Date(validity).getTime() > 0
 
     if (!isAmountValid || !isNameValid || !isProviderValid || !isSuppliesTypeValid || !isUnitValid || !isValidytValid) {
       return res.status(400).json({ error: 'BadFormat' })
@@ -85,7 +85,12 @@ export function makeFeedStockRoutes(router: Router): void {
 
     updateClient({
       id: parseInt(id),
-      amount, name, provider, suppliesType, unit, validity
+      amount,
+      name,
+      provider,
+      supplies_type,
+      unit,
+      validity
     }).then(feedstock => res.status(200).json(feedstock)).catch(error => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
