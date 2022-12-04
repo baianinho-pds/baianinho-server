@@ -1,18 +1,20 @@
-import { Database, Page } from '@/infra/database'
-import { FeedStock } from '@/models/feedstock'
+import { FeedstockEntity } from '@/infra/entities'
+import { Page } from '@/shared/types'
+import { Feedstock } from '@/models'
 
 interface FindPageParams {
   page: number
   itemsPerPage: number
 }
 
-export async function findFeedStockPage(params: FindPageParams): Promise<Page<FeedStock>> {
-  const feedstockPage = await Database.getInstance().findMany<FeedStock>('feedstock', {
+export async function findFeedstockPage (params: FindPageParams): Promise<Page<Feedstock>> {
+  const feedstockPage = await FeedstockEntity.findAndCountAll({
     limit: params.itemsPerPage,
-    offset: params.page - 1,
-    select: '*',
-    count: true
+    offset: params.page - 1
   })
 
-  return feedstockPage
+  return {
+    total: feedstockPage.count,
+    data: feedstockPage.rows.map(row => row.toJSON())
+  }
 }

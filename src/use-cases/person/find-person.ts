@@ -1,13 +1,12 @@
-import { Database } from '../../infra/database'
-import { Person } from '../../models/person'
+import { PersonEntity } from '@/infra/entities'
+import { Person } from '@/models'
 
 export async function findPerson (userId: number): Promise<Person> {
-  const person = await Database.getInstance().findOne<Person>('person', {
-    select: '*',
+  const person = await PersonEntity.findOne({
     where: {
       id: userId
     }
   })
 
-  return person
+  return person.toJSON()
 }

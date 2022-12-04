@@ -1,10 +1,9 @@
-import { Database } from '@/infra/database'
-import { FeedStock } from '@/models/feedstock'
+import { FeedstockEntity } from '@/infra/entities'
+import { Feedstock } from '@/models'
 
-type AddFeedStockParams = Omit<FeedStock, 'id'>
+type AddFeedstockParams = Omit<Feedstock, 'id'>
 
-export async function addFeedStock(params: AddFeedStockParams): Promise<FeedStock> {
-  const feedstock = await Database.getInstance().insert('feedstock', params)
-
-  return feedstock
+export async function addFeedStock (params: AddFeedstockParams): Promise<Feedstock> {
+  const feedstock = await FeedstockEntity.create(params)
+  return await feedstock.toJSON()
 }

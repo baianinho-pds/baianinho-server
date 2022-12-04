@@ -1,4 +1,5 @@
-import { Database, Page } from '@/infra/database'
+import { Page } from '@/shared/types'
+import { ClientEntity } from '@/infra/entities'
 import { Client } from '@/models/client'
 
 interface FindPageParams {
@@ -7,12 +8,13 @@ interface FindPageParams {
 }
 
 export async function findclientPage (params: FindPageParams): Promise<Page<Client>> {
-  const clientPage = await Database.getInstance().findMany<Client>('client', {
+  const clientPage = await ClientEntity.findAndCountAll({
     limit: params.itemsPerPage,
-    offset: params.page - 1,
-    select: '*',
-    count: true
+    offset: params.page - 1
   })
 
-  return clientPage
+  return {
+    total: clientPage.count,
+    data: clientPage.rows.map(row => row.toJSON())
+  }
 }

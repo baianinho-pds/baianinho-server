@@ -1,8 +1,10 @@
-export interface Client {
+interface Client {
   id: number
   name: string
   address: string
-  contact_phone: string
+  contactPhone: string
   cpf?: string
   cnpj?: string
 }
+
+export type { Client }

@@ -1,8 +1,9 @@
-import { Database } from '@/infra/database'
-import { FeedStock } from '@/models/feedstock'
+import { FeedstockEntity } from '@/infra/entities'
 
-export async function deleteFeedStock(feedstockId: number): Promise<void> {
-  await Database.getInstance().delete<FeedStock>('feedstock', {
-    where: { id: feedstockId }
+export async function deleteFeedstock (feedstockId: number): Promise<void> {
+  await FeedstockEntity.destroy({
+    where: {
+      id: feedstockId
+    }
   })
 }

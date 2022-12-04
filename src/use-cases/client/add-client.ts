@@ -1,10 +1,9 @@
-import { Database } from '@/infra/database'
-import { Client } from '@/models/client'
+import { ClientEntity } from '@/infra/entities'
+import { Client } from '@/models'
 
 type AddClientParams = Omit<Client, 'id'>
 
 export async function addClient (params: AddClientParams): Promise<Client> {
-  const client = await Database.getInstance().insert('client', params)
-
-  return client
+  const client = await ClientEntity.create(params)
+  return await client.toJSON()
 }

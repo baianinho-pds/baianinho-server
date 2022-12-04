@@ -1,26 +1,14 @@
-import { Relation } from '@/models/relation'
+import { Product } from './product'
 
-export interface FeedStock {
+interface Feedstock {
   id: number
   name: string
   suppliesType: string
   provider: string
   unit: string
+  products?: Product[]
   amount?: number
   validity?: Date
 }
 
-export namespace FeedStock {
-  export const Relations: Relation[] = [{
-    type: 'many-to-many',
-    aux_table_name: 'product_feedstock',
-    joinColumn: {
-      columnName: 'feedstock_id',
-      referenceColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      columnName: 'product_id',
-      referenceColumnName: 'id'
-    }
-  }]
-}
+export type { Feedstock }

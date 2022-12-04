@@ -1,17 +1,16 @@
-import { Database } from '../../infra/database'
-import { FeedStock } from '../../models/feedstock'
+import { FeedstockEntity } from '@/infra/entities'
+import { Feedstock } from '@/models'
 
-export async function updateClient(feedstock: FeedStock): Promise<FeedStock> {
+export async function updateFeedstock (feedstock: Feedstock): Promise<Feedstock> {
   const { id, ...paramsToUpdate } = feedstock
-  const updatedFeedStock = await Database.getInstance().update({
-    data: paramsToUpdate,
-    id,
-    table: 'feedstock'
+  const [affected, updatedFeedStock] = await FeedstockEntity.update(paramsToUpdate, {
+    where: { id },
+    returning: true
   })
 
-  if (!updatedFeedStock) {
+  if (!affected) {
     throw new Error('Server error')
   }
 
-  return updatedFeedStock
+  return updatedFeedStock[0].toJSON()
 }

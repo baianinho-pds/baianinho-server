@@ -1,13 +1,10 @@
-import { Database } from '../../infra/database'
-import { Client } from '../../models/client'
+import { ClientEntity } from '@/infra/entities'
+import { Client } from '@/models'
 
 export async function findClient (clientId: number): Promise<Client> {
-  const client = await Database.getInstance().findOne<Client>('client', {
-    select: '*',
-    where: {
-      id: clientId
-    }
+  const client = await ClientEntity.findOne({
+    where: { id: clientId }
   })
 
-  return client
+  return client.toJSON()
 }

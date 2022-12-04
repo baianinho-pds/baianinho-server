@@ -1,13 +1,12 @@
-import { Database } from '../../infra/database'
-import { FeedStock } from '../../models/feedstock'
+import { FeedstockEntity } from '@/infra/entities'
+import { Feedstock } from '@/models'
 
-export async function findFeedStock(feedstockId: number): Promise<FeedStock> {
-  const feedstock = await Database.getInstance().findOne<FeedStock>('feedstock', {
-    select: '*',
+export async function findFeedstock (feedstockId: number): Promise<Feedstock> {
+  const feedstock = await FeedstockEntity.findOne({
     where: {
       id: feedstockId
     }
   })
 
-  return feedstock
+  return feedstock.toJSON()
 }

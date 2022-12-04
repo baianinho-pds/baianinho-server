@@ -1,17 +1,16 @@
-import { Database } from '../../infra/database'
-import { Person } from '../../models/person'
+import { PersonEntity } from '@/infra/entities'
+import { Person } from '@/models'
 
 export async function updatePerson (person: Person): Promise<Person> {
   const { id, ...paramsToUpdate } = person
-  const updatedPerson = await Database.getInstance().update({
-    data: paramsToUpdate,
-    id,
-    table: 'person'
+  const [affected, updatedPerson] = await PersonEntity.update(paramsToUpdate, {
+    where: { id },
+    returning: true
   })
 
-  if (!updatedPerson) {
+  if (!affected) {
     throw new Error('Server error')
   }
 
-  return updatedPerson
+  return updatedPerson[0].toJSON()
 }

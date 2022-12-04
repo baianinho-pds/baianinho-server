@@ -1,8 +1,5 @@
-import { Database } from '@/infra/database'
-import { Client } from '@/models/client'
+import { ClientEntity } from '@/infra/entities'
 
 export async function deleteClient (clientId: number): Promise<void> {
-  await Database.getInstance().delete<Client>('person', {
-    where: { id: clientId }
-  })
+  await ClientEntity.destroy({ where: { id: clientId } })
 }

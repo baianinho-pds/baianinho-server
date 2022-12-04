@@ -1,21 +1,23 @@
-export interface Person {
+interface Person {
   id: number
   name: string
   ctps: string
   cpf: string
-  admission_date: Date
-  demission_date?: Date | null
-  contact_phone: string
-  role_name: Person.Role
+  admissionDate: Date
+  demissionDate?: Date | null
+  contactPhone: string
+  role: Person.Role
   city: string
   neighborhood: string
   street: string
   number: string
-  postal_code: string
-  sector_name: Person.Sector
+  postalCode: string
+  sector: Person.Sector
 }
 
-export namespace Person {
+namespace Person {
   export type Role = 'admin' | 'seller'
   export type Sector = 'internal' | 'external'
 }
+
+export type { Person }

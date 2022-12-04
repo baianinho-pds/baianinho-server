@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { FeedStock } from '@/models/feedstock'
 import { addFeedStock, deleteFeedStock, findFeedStock, findFeedStockPage, updateClient } from '@/use-cases/feedstock'
 
-export function makeFeedStockRoutes(router: Router): void {
+export function makeFeedStockRoutes (router: Router): void {
   router.post('/', (req, res) => {
     const {
       amount,
@@ -85,7 +85,12 @@ export function makeFeedStockRoutes(router: Router): void {
 
     updateClient({
       id: parseInt(id),
-      amount, name, provider, suppliesType, unit, validity
+      amount,
+      name,
+      provider,
+      suppliesType,
+      unit,
+      validity
     }).then(feedstock => res.status(200).json(feedstock)).catch(error => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
