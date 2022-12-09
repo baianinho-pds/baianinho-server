@@ -1,5 +1,0 @@
-export * from './add-person'
-export * from './delete-person'
-export * from './find-person-page'
-export * from './find-person'
-export * from './update-person'
