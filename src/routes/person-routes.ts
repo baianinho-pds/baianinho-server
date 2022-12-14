@@ -8,7 +8,7 @@ import {
 } from '@/use-cases/person'
 import { Router } from 'express'
 
-export function makePersonRoutes (router: Router): void {
+export function makePersonRoutes(router: Router): void {
   router.post('/', (req, res) => {
     const validRoles: Person.Role[] = ['admin', 'seller']
     const validSectors: Person.Sector[] = ['external', 'internal']
@@ -39,6 +39,9 @@ export function makePersonRoutes (router: Router): void {
     const isPostalCodeValid = postalCode && typeof postalCode === 'string'
     const isSectorValid = sector && validSectors.includes(sector)
     const isStreetValid = street && typeof street === 'string'
+
+    console.log({ isNameValid, isCptsValid, isCpfValid, isAdmissionDateValid, isContactPhoneValid, isRoleValid, isCityValid, isNeighborhoodValid, isNumberValid, isPostalCodeValid, isSectorValid, isStreetValid });
+
 
     if (
       !isNameValid ||

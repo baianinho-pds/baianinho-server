@@ -1,11 +1,10 @@
 import { addProduct } from '@/use-cases/product/add-product'
 import type { AddProductParams } from '@/use-cases/product/add-product'
 import { Router } from 'express'
-import { findPersonPage } from '@/use-cases/person'
-import { deleteProduct, findProduct, updateProduct } from '@/use-cases/product'
+import { deleteProduct, findProduct, findProductPage, updateProduct } from '@/use-cases/product'
 import { Product } from '@/models'
 
-export function makeProductRoutes (router: Router): void {
+export function makeProductRoutes(router: Router): void {
   router.post('/', (req, res) => {
     const {
       batchCode,
@@ -36,7 +35,7 @@ export function makeProductRoutes (router: Router): void {
   router.get('/', (req, res) => {
     const { itemsPerPage = '10', page = '1' } = req.query
 
-    findPersonPage({
+    findProductPage({
       itemsPerPage: parseInt(itemsPerPage as string),
       page: parseInt(page as string)
     }).then(feedstockPage => res.status(200).json(feedstockPage)).catch(error => {

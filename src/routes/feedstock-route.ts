@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { Feedstock } from '@/models/feedstock'
-import { addFeedStock, deleteFeedstock, findFeedstock, findFeedstockPage, updateFeedstock } from '@/use-cases/feedstock'
+import { addFeedStock, AddFeedstockParams, deleteFeedstock, findFeedstock, findFeedstockPage, updateFeedstock } from '@/use-cases/feedstock'
 
-export function makeFeedStockRoutes (router: Router): void {
+export function makeFeedStockRoutes(router: Router): void {
   router.post('/', (req, res) => {
     const {
       amount,
@@ -10,8 +10,9 @@ export function makeFeedStockRoutes (router: Router): void {
       provider,
       suppliesType,
       unit,
-      validity
-    } = req.body as Feedstock
+      validity,
+      products
+    } = req.body as AddFeedstockParams
 
     const isAmountValid = amount === undefined || amount === null || typeof amount === 'number'
     const isNameValid = name && typeof name === 'string'
@@ -26,7 +27,7 @@ export function makeFeedStockRoutes (router: Router): void {
     }
 
     addFeedStock({
-      amount, name, provider, suppliesType, unit, validity
+      amount, name, provider, suppliesType, unit, validity, products
     }).then(feedstock => res.status(200).json(feedstock)).catch(error => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })
@@ -68,8 +69,9 @@ export function makeFeedStockRoutes (router: Router): void {
       provider,
       suppliesType,
       unit,
-      validity
-    } = req.body as Feedstock
+      validity,
+      products
+    } = req.body as AddFeedstockParams
 
     const { id } = req.params
 
@@ -92,7 +94,8 @@ export function makeFeedStockRoutes (router: Router): void {
       provider,
       suppliesType,
       unit,
-      validity
+      validity,
+      products
     }).then(feedstock => res.status(200).json(feedstock)).catch(error => {
       console.error(error)
       res.status(500).json({ error: 'ServerError' })

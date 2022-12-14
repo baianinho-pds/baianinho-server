@@ -7,7 +7,7 @@ interface FindPageParams {
   itemsPerPage: number
 }
 
-export async function findFeedstockPage (params: FindPageParams): Promise<Page<Product>> {
+export async function findProductPage(params: FindPageParams): Promise<Page<Product>> {
   const [total, data] = await database.$transaction([
     database.productEntity.count(),
     database.productEntity.findMany({
