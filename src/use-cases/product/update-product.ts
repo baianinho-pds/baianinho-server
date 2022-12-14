@@ -1,20 +1,36 @@
 import { database } from '../../infra/database'
 import { Product } from '../../models'
 
-export async function updateProduct (product: Product): Promise<Product> {
+export type UpdateProductsParams = Product & {
+  feedstocks?: Array<{ id: number }>
+}
+export async function updateProduct(product: UpdateProductsParams): Promise<Product> {
   const { id, ...paramsToUpdate } = product
-  const updatedFeedStock = await database.productEntity.update({
-    where: { id },
-    data: {
-      ...paramsToUpdate,
-      feedstocks: {
-        connect: paramsToUpdate.feedstocks || []
+  const [_, updatedFeedStock] = await database.$transaction([
+    database.productEntity.update({
+      where: {
+        id
+      },
+      data: {
+        feedstocks: {
+          set: []
+        }
       }
-    },
-    include: {
-      feedstocks: true
-    }
-  })
+    }),
+    database.productEntity.update({
+      where: { id },
+      data: {
+        ...paramsToUpdate,
+        feedstocks: {
+          connect: paramsToUpdate.feedstocks || []
+        }
+      },
+      include: {
+        feedstocks: true
+      }
+    })
+
+  ])
 
   if (!updatedFeedStock) {
     throw new Error('Server error')

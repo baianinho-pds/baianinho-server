@@ -10,11 +10,11 @@ type AddProductResponse = Product & {
   feedstocks: Feedstock[]
 }
 
-export async function addProduct ({ feedstocks, ...params }: AddProductParams): Promise<AddProductResponse> {
+export async function addProduct(params: AddProductParams): Promise<AddProductResponse> {
   const savedProducts = await database.productEntity.create({
     data: {
       ...params,
-      feedstocks: { connect: feedstocks }
+      feedstocks: { connect: params.feedstocks || [] }
     },
     include: {
       feedstocks: true

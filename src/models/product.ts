@@ -1,5 +1,3 @@
-import { Feedstock } from './feedstock'
-
 interface Product {
   id: number
   name: string
@@ -7,7 +5,6 @@ interface Product {
   grammage: number
   quantity: number
   price: number
-  feedstocks: Feedstock[]
   productionDate: Date
   expirationDate: Date
 }
